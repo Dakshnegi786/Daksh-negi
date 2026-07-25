@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mia Reyes — Shop My Edit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDE6DC;
+    --paper-2:#E4DBCC;
+    --ink:#2B2620;
+    --coral:#E8785A;   /* makeup */
+    --sage:#7E8F72;    /* skincare */
+    --mauve:#B98CA0;   /* fashion */
+    --gold:#B98A46;    /* hair */
+    --line: rgba(43,38,32,0.14);
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* faint paper texture */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(0,0,0,0.025) 0, transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(0,0,0,0.025) 0, transparent 40%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .wrap{
+    max-width:480px;
+    margin:0 auto;
+    padding:0 20px 60px;
+    position:relative;
+    z-index:1;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:44px 0 28px;
+    text-align:center;
+  }
+  .avatar{
+    width:84px; height:84px;
+    border-radius:50%;
+    margin:0 auto 18px;
+    background:
+      conic-gradient(from 180deg, var(--coral), var(--mauve), var(--gold), var(--sage), var(--coral));
+    padding:3px;
+  }
+  .avatar-inner{
+    width:100%; height:100%;
+    border-radius:50%;
+    background:var(--paper-2) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="84" height="84"><rect width="84" height="84" fill="%23E4DBCC"/></svg>') center/cover;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces', serif;
+    font-size:28px;
+    color:var(--ink);
+  }
+  .name{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:30px;
+    letter-spacing:-0.01em;
+    margin:0 0 2px;
+  }
+  .handle{
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.06em;
+    color:rgba(43,38,32,0.6);
+    margin:0 0 14px;
+  }
+  .tagline{
+    font-size:15px;
+    line-height:1.5;
+    max-width:320px;
+    margin:0 auto;
+    color:rgba(43,38,32,0.82);
+  }
+
+  /* ---------- SWATCH NAV (signature element) ---------- */
+  .swatch-nav{
+    display:flex;
+    justify-content:center;
+    gap:22px;
+    margin:30px 0 6px;
+    padding:0 4px;
+  }
+  .swatch-btn{
+    background:none; border:none; cursor:pointer;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    font-family:'Space Mono', monospace;
+    padding:4px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .swatch-dot{
+    width:38px; height:38px;
+    border-radius:50%;
+    border:2px solid transparent;
+    box-shadow: inset 0 0 0 1.5px rgba(0,0,0,0.06);
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .swatch-btn[data-cat="makeup"] .swatch-dot{ background:var(--coral); }
+  .swatch-btn[data-cat="skincare"] .swatch-dot{ background:var(--sage); }
+  .swatch-btn[data-cat="fashion"] .swatch-dot{ background:var(--mauve); }
+  .swatch-btn[data-cat="hair"] .swatch-dot{ background:var(--gold); }
+
+  .swatch-btn span{
+    font-size:10px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:rgba(43,38,32,0.55);
+  }
+  .swatch-btn:hover .swatch-dot{ transform:translateY(-2px) scale(1.06); }
+  .swatch-btn.active .swatch-dot{
+    box-shadow: 0 0 0 3px var(--paper), 0 0 0 4.5px currentColor;
+    transform:translateY(-2px) scale(1.08);
+  }
+  .swatch-btn.active[data-cat="makeup"]{ color:var(--coral); }
+  .swatch-btn.active[data-cat="skincare"]{ color:var(--sage); }
+  .swatch-btn.active[data-cat="fashion"]{ color:var(--mauve); }
+  .swatch-btn.active[data-cat="hair"]{ color:var(--gold); }
+  .swatch-btn.active span{ color:var(--ink); }
+  .swatch-btn:focus-visible .swatch-dot{ outline:2px solid var(--ink); outline-offset:3px; }
+
+  /* ---------- SPOTLIGHT ---------- */
+  .spotlight{
+    margin:36px 0 10px;
+    border:1.5px solid var(--ink);
+    border-radius:18px;
+    padding:20px;
+    background:var(--paper-2);
+    position:relative;
+    overflow:hidden;
+  }
+  .spotlight::after{
+    content:"OBSESSION";
+    position:absolute; top:14px; right:-30px;
+    transform:rotate(90deg);
+    font-family:'Space Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.15em;
+    color:rgba(43,38,32,0.35);
+  }
+  .spotlight-eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:rgba(43,38,32,0.55);
+    margin-bottom:8px;
+  }
+  .spotlight h2{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:22px;
+    margin:0 0 6px;
+    max-width:80%;
+  }
+  .spotlight p{
+    font-size:14px;
+    line-height:1.5;
+    color:rgba(43,38,32,0.75);
+    margin:0 0 16px;
+    max-width:85%;
+  }
+  .spotlight .shop-btn{ background:var(--ink); color:var(--paper); }
+
+  /* ---------- LINK CARDS ---------- */
+  .section-label{
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:rgba(43,38,32,0.5);
+    margin:34px 0 12px 4px;
+  }
+  .cards{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .card{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:14px 16px;
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:14px;
+    text-decoration:none;
+    color:var(--ink);
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 18px rgba(43,38,32,0.08);
+    border-color:rgba(43,38,32,0.28);
+  }
+  .card:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .tab{
+    width:6px;
+    align-self:stretch;
+    border-radius:4px;
+    flex-shrink:0;
+  }
+  .card[data-cat="makeup"] .tab{ background:var(--coral); }
+  .card[data-cat="skincare"] .tab{ background:var(--sage); }
+  .card[data-cat="fashion"] .tab{ background:var(--mauve); }
+  .card[data-cat="hair"] .tab{ background:var(--gold); }
+
+  .card-body{ flex:1; min-width:0; }
+  .card-shade{
+    font-family:'Space Mono', monospace;
+    font-size:10px;
+    color:rgba(43,38,32,0.45);
+    margin-bottom:2px;
+    letter-spacing:0.04em;
+  }
+  .card-title{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:16.5px;
+    margin-bottom:2px;
+  }
+  .card-desc{
+    font-size:12.5px;
+    color:rgba(43,38,32,0.62);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .card-arrow{
+    font-size:18px;
+    color:rgba(43,38,32,0.35);
+    flex-shrink:0;
+  }
+
+  .shop-btn{
+    display:inline-block;
+    background:var(--paper);
+    border:1.5px solid var(--ink);
+    color:var(--ink);
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:9px 18px;
+    border-radius:100px;
+    text-decoration:none;
+    transition: background .18s ease, color .18s ease;
+  }
+  .shop-btn:hover{ background:var(--ink); color:var(--paper); }
+
+  /* ---------- SOCIALS ---------- */
+  .socials{
+    display:flex;
+    justify-content:center;
+    gap:16px;
+    margin:38px 0 6px;
+  }
+  .social-link{
+    width:42px; height:42px;
+    border-radius:50%;
+    border:1.5px solid var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--ink);
+    text-decoration:none;
+    transition: background .18s ease, color .18s ease;
+  }
+  .social-link:hover{ background:var(--ink); color:var(--paper); }
+  .social-link svg{ width:18px; height:18px; }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    margin-top:34px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+    text-align:center;
+  }
+  .disclosure{
+    font-size:11.5px;
+    line-height:1.6;
+    color:rgba(43,38,32,0.55);
+    max-width:340px;
+    margin:0 auto 10px;
+  }
+  .copyright{
+    font-family:'Space Mono', monospace;
+    font-size:10px;
+    color:rgba(43,38,32,0.4);
+    letter-spacing:0.04em;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; scroll-behavior:auto !important; }
+  }
+
+  .hidden{ display:none !important; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="avatar"><div class="avatar-inner">MR</div></div>
+    <h1 class="name">Mia Reyes</h1>
+    <p class="handle">@mia.reyes.style</p>
+    <p class="tagline">Clean beauty &amp; everyday fashion edits, straight off my feed. Tap a shade to shop.</p>
+  </div>
+
+  <!-- SWATCH FILTER NAV -->
+  <nav class="swatch-nav" aria-label="Filter by category">
+    <button class="swatch-btn active" data-cat="all" aria-pressed="true">
+      <span class="swatch-dot" style="background:conic-gradient(var(--coral),var(--mauve),var(--gold),var(--sage))"></span>
+      <span>All</span>
+    </button>
+    <button class="swatch-btn" data-cat="makeup" aria-pressed="false">
+      <span class="swatch-dot"></span>
+      <span>Makeup</span>
+    </button>
+    <button class="swatch-btn" data-cat="skincare" aria-pressed="false">
+      <span class="swatch-dot"></span>
+      <span>Skin</span>
+    </button>
+    <button class="swatch-btn" data-cat="fashion" aria-pressed="false">
+      <span class="swatch-dot"></span>
+      <span>Fashion</span>
+    </button>
+    <button class="swatch-btn" data-cat="hair" aria-pressed="false">
+      <span class="swatch-dot"></span>
+      <span>Hair</span>
+    </button>
+  </nav>
+
+  <!-- SPOTLIGHT -->
+  <div class="spotlight">
+    <div class="spotlight-eyebrow">This week's obsession</div>
+    <h2>Sheer Blur Foundation</h2>
+    <p>The one I've repurchased four times — barely-there coverage that still holds up through golden hour reels.</p>
+    <a class="shop-btn" href="#" target="_blank" rel="noopener sponsored">Shop this →</a>
+  </div>
+
+  <!-- LINK CARDS -->
+  <div class="section-label">Shop my links</div>
+  <div class="cards" id="cardList">
+
+    <a class="card" data-cat="makeup" href="#" target="_blank" rel="noopener sponsored">
+      <span class="tab"></span>
+      <span class="card-body">
+        <span class="card-shade">N°01 · MAKEUP</span>
+        <span class="card-title">Cream Blush Duo</span>
+        <span class="card-desc">The flush I use in every "get ready with me"</span>
+      </span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" data-cat="makeup" href="#" target="_blank" rel="noopener sponsored">
+      <span class="tab"></span>
+      <span class="card-body">
+        <span class="card-shade">N°02 · MAKEUP</span>
+        <span class="card-title">Soft-Focus Setting Powder</span>
+        <span class="card-desc">Keeps shine down without looking cakey</span>
+      </span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" data-cat="skincare" href="#" target="_blank" rel="noopener sponsored">
+      <span class="tab"></span>
+      <span class="card-body">
+        <span class="card-shade">N°03 · SKINCARE</span>
+        <span class="card-title">Barrier Repair Moisturizer</span>
+        <span class="card-desc">My rebuild-your-skin era, month two</span>
+      </span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" data-cat="skincare" href="#" target="_blank" rel="noopener sponsored">
+      <span class="tab"></span>
+      <span class="card-body">
+        <span class="card-shade">N°04 · SKINCARE</span>
+        <span class="card-title">Vitamin C Morning Serum</span>
+        <span class="card-desc">Brightening, no stinging, no white cast</span>
+      </span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" data-cat="fashion" href="#" target="_blank" rel="noopener sponsored">
+      <span class="tab"></span>
+      <span class="card-body">
+        <span class="card-shade">N°05 · FASHION</span>
+        <span class="card-title">Linen Wrap Dress</span>
+        <span class="card-desc">Worn in three reels this month alone</span>
+      </span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" data-cat="fashion" href="#" target="_blank" rel="noopener sponsored">
+      <span class="tab"></span>
+      <span class="card-body">
+        <span class="card-shade">N°06 · FASHION</span>
+        <span class="card-title">Everyday Gold Hoops</span>
+        <span class="card-desc">Doesn't tarnish, doesn't leave my ears</span>
+      </span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" data-cat="hair" href="#" target="_blank" rel="noopener sponsored">
+      <span class="tab"></span>
+      <span class="card-body">
+        <span class="card-shade">N°07 · HAIR</span>
+        <span class="card-title">Heatless Curl Set</span>
+        <span class="card-desc">The overnight curls everyone asks about</span>
+      </span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" data-cat="hair" href="#" target="_blank" rel="noopener sponsored">
+      <span class="tab"></span>
+      <span class="card-body">
+        <span class="card-shade">N°08 · HAIR</span>
+        <span class="card-title">Scalp Renewal Serum</span>
+        <span class="card-desc">Three drops, root-to-tip, twice a week</span>
+      </span>
+      <span class="card-arrow">→</span>
+    </a>
+
+  </div>
+
+  <!-- SOCIALS -->
+  <div class="socials">
+    <a class="social-link" href="#" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a class="social-link" href="#" target="_blank" rel="noopener" aria-label="TikTok">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 4v9.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c0 2.2 1.8 4 4 4"/></svg>
+    </a>
+    <a class="social-link" href="#" target="_blank" rel="noopener" aria-label="Pinterest">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M9.5 17c1-2.5 1.5-4.3 1.5-5.5a2 2 0 1 1 3.8-.8c0 1-1.3 4.3-1.3 4.3"/></svg>
+    </a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="disclosure">Some links on this page are affiliate links. If you shop through them, I may earn a small commission at no extra cost to you — thank you for supporting the page. 💛</p>
+    <p class="copyright">© 2026 MIA REYES</p>
+  </footer>
+
+</div>
+
+<script>
+  const buttons = document.querySelectorAll('.swatch-btn');
+  const cards = document.querySelectorAll('.card');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
+      btn.classList.add('active');
+      btn.setAttribute('aria-pressed','true');
+
+      const cat = btn.dataset.cat;
+      cards.forEach(card => {
+        if(cat === 'all' || card.dataset.cat === cat){
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
